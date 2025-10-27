@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ proveedor.nombre }} | Proveedores{% endblock %}
+
+{% block contenido %}
+<article class="provee-detail">
+    <div class="provee-banner">
+        {% if proveedor.foto_proveedor %}
+            <img src="{{ proveedor.foto_proveedor.url }}" alt="Foto de {{ proveedor.nombre }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">👤</div>
+        {% endif %}
+        <div class="provee-info">
+            <h1>{{ proveedor.nombre }}</h1>
+            <h3>{{ proveedor.contacto }}</h3>
+            <h3>{{ proveedor.telefono }}</h3>
+            <h3>{{ proveedor.email }}</h3>
+            <h3>{{ proveedor.direccion }}</h3>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_proveedores:editar_proveedor' proveedor.id %}" class="btn btn-secondary">✏️ Editar</a>
+        <a href="{% url 'app_proveedores:borrar_proveedor' proveedor.id %}" class="btn btn-danger">🗑️ Borrar</a>
+    </div>
+
+    <section class="produ-section">
+        <h2>Productos</h2>
+        {% if proveedor.productos.all %}
+        <ul class="produ-list">
+            {% for producto in proveedor.productos.all %}
+            <li>{{ producto.nombre }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-message">Este proveedor no tiene productos registradas.</p>
+        {% endif %}
+    </section>
+</article>
+{% endblock %}
